@@ -78,7 +78,11 @@ public class TaskList {
 
     public void markDone(String idToBeDone){
 
-        this.taskList.get(Integer.parseInt(idToBeDone)).setComplete(true);
+        Task task = this.taskList.get(Integer.parseInt(idToBeDone));
+
+        if(task != null){
+            task.setComplete(true);
+        }
 
     }
 }
