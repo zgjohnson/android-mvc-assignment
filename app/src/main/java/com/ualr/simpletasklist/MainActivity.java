@@ -3,15 +3,18 @@ package com.ualr.simpletasklist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.ualr.simpletasklist.databinding.ActivityMainBinding;
+import com.ualr.simpletasklist.model.TaskList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private ActivityMainBinding binding;
 
     // TODO 05. Add a TaskList member to the MainActivity. Initialize the new member.
+    private TaskList taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +22,37 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        taskList = new TaskList();
+
         //TODO 06.02 Bind the onAddBtnClicked method to the add button, so the onAddBtnClicked is
         // triggered whenever the user clicks on that button
+
+        binding.addBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onAddBtnClicked();
+            }
+        });
 
         //TODO 07.02 Bind the onDeleteBtnClicked method to the delete button, so that method is
         // triggered whenever the user clicks on that button
 
+        binding.deleteBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onDeleteBtnClicked();
+            }
+        });
+
         //TODO 08.02 Bind the onDoneBtnClicked method to the done button, so the onDoneBtnClicked method is
         // triggered whenever the user clicks on that button
+
+        binding.clearBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onDoneBtnClicked();
+            }
+        });
     }
 
 
@@ -41,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
     // TODO 06.06. Use TaskList class' toString method to get a string with the formatted task list
     //  and display it on screen in the TextView with the id "textView"
 
+    private void onAddBtnClicked(){
+
+        taskList.add(binding.editTextTextPersonName.getText().toString());
+        binding.taskList.setText(taskList.toFormattedString());
+    }
 
     // TODO 07. Create a new functionality to delete a task from the task list
 
@@ -51,7 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO 07.05. Use TaskList class' toString method to get a string with the formatted task list
     //  and display it on screen in the TextView with the id "textView"
-
+    private void onDeleteBtnClicked(){
+        taskList.delete(binding.editTextTaskId.getText().toString());
+        binding.taskList.setText(taskList.toFormattedString());
+    }
 
     // TODO 08. Create a new functionality to mark a task as done.
 
@@ -63,4 +97,9 @@ public class MainActivity extends AppCompatActivity {
     // TODO 08.05. Use TaskList class' toString method to get a string with the formatted task list
     //  and display it on screen in the TextView with the id "textView"
 
+    private void onDoneBtnClicked(){
+        taskList.markDone(binding.editTextTaskId.getText().toString());
+        binding.taskList.setText(taskList.toFormattedString());
+
+    }
 }
